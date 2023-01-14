@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AudioManager</name>
+    </assembly>
+    <members>
+        <member name="M:AudioMgr.AudioMaster.NewClipManager">
+            <summary>
+            Creates a new ClipManager instance for loading audioclips from files or bundles.
+            </summary>
+            <returns>New "ClipManager" class instance. Manage yourself</returns>
+        </member>
+        <member name="M:AudioMgr.AudioMaster.CreateShot(UnityEngine.GameObject,AudioMgr.AudioMaster.SourceType)">
+            <summary>
+            Creates a new AudioSource on targetobject. Used for single short audioclips.
+            </summary>
+            <returns>New "Shot" class instance. Manage yourself</returns>
+            <param name="targetObject">Parentobject for new audiosource</param>
+            <param name="sourceType">Enum AudioMaster.SourceType.* - Affects volume and 3d audio settings</param>
+            
+        </member>
+        <member name="M:AudioMgr.AudioMaster.CreatePlayerShot(AudioMgr.AudioMaster.SourceType)">
+            <summary>
+            Creates a new AudioSource on the player. Used for single short audioclips that emit from the player (eg. voice)
+            </summary>
+            <returns>New "Shot" class instance. Manage yourself</returns>
+            <param name="sourceType">Enum AudioMaster.SourceType.* - Affects volume and 3d audio settings</param>
+            
+        </member>
+        <member name="M:AudioMgr.AudioMaster.CreateQueue(UnityEngine.GameObject,AudioMgr.ClipManager,System.Single,AudioMgr.Queue.Loop,AudioMgr.AudioMaster.SourceType)">
+            <summary>
+            Creates a new AudioSource on targetobject. Used for playing a list of audioclips.
+            </summary>
+            <returns>New "Queue" class instance. Manage yourself</returns>
+            <param name="targetObject">Parentobject for new audiosource</param>
+            <param name="clipManager">ClipManager that acts as the playlist</param>
+            <param name="timeGap">Pause between clips. Use 0f for gapless playback</param>
+            <param name="loopType">Enum Queue.Loop.* - Loop single clip / Loop complete list / Randomize play order (never stop)</param>
+            <param name="sourceType">Enum AudioMaster.SourceType.* - Affects volume and 3d audio settings</param>
+            
+        </member>
+        <member name="M:AudioMgr.AudioMaster.CreatePlayerQueue(AudioMgr.ClipManager,System.Single,AudioMgr.Queue.Loop,AudioMgr.AudioMaster.SourceType)">
+            <summary>
+            Creates a new AudioSource on the player. Used for playing a list of audioclips.
+            </summary>
+            <returns>New "Queue" class instance. Manage yourself</returns>
+            <param name="clipManager">ClipManager that acts as the playlist</param>
+            <param name="timeGap">Pause between clips. Use 0f for gapless playback</param>
+            <param name="loopType">Enum Queue.Loop.* - Loop single clip / Loop complete list / Randomize play order (never stop)</param>
+            <param name="sourceType">Enum AudioMaster.SourceType.* - Affects volume and 3d audio settings</param>
+            
+        </member>
+        <member name="M:AudioMgr.AudioMaster.RemovePlayerBGMQueue">
+            <summary>
+            Removes any Queue on the player with the source type BGM.
+            </summary>
+            
+        </member>
+    </members>
+</doc>
