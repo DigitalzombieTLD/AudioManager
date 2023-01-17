@@ -3,12 +3,12 @@
 Audio helper mod for The Long Dark. Uses Unitys native audio engine to enable easier usage of custom audio in mods.
 
 #### Current features v0.8
- - Loading of single audio files (ogg, wav, mp3) on runtime
- - Loading of all audio files inside a directory
- - Loading of single audioclips inside assetbundles
- - Loading of all audioclips inside assetbundles
- - Creating of audiosources on objects/player
- - Playing of singleshot audioclips on object/player
+- Loading of single audio files (ogg, wav, mp3) on runtime
+- Loading of all audio files inside a directory
+- Loading of single audioclips inside assetbundles
+- Loading of all audioclips inside assetbundles
+- Creating of audiosources on objects/player
+- Playing of singleshot audioclips on object/player
 - Playing list of audioclips on object/player (looped, randomized)
 - Audiocategories linked to vanilla volume settings
 - Global and custom settings for audiosources
@@ -28,7 +28,6 @@ Loaded clips can be played on audiosources. Those are separated in multiple cate
 Shot audiosources can play audioclips from a ClipManager instance directly. Queue sources access all clips inside a ClipManager instance. Control of playback is possible through the source instances. If multiple Queue sources share the same ClipManager, both are independant of each other.
 
 #### Usage example
-
 
 ```csharp
 using MelonLoader;
@@ -57,7 +56,7 @@ namespace HereBeNamespace
         }
 
         public override void OnUpdate()
-		{
+	{
             if (InputManager.GetKeyDown(InputManager.m_CurrentContext, KeyCode.Keypad0))
             {
                 // Play clip named "isThisFood.ogg on the player
