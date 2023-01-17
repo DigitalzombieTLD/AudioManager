@@ -23,6 +23,8 @@ Loaded clips can be played on audiosources. Those are separated in multiple cate
  3. Audiosource for playing single shot clips (Shot) on the player itself (eg. voice clip)
  4. Audiosource for playing a playlist (Queue) on the player itself (eg. background music)
  
+ ![Screenshot](https://github.com/DigitalzombieTLD/AudioManager/raw/main/overview.png)
+ 
  Each audiosource get a settingstemplate applied on instantiation. The settings affect volume and 3d audio of the source (eg. BGM will get played without any 3d setting, in both ears, SFX can be located in 3d space). Custom templates are possible.
 
 Shot audiosources can play audioclips from a ClipManager instance directly. Queue sources access all clips inside a ClipManager instance. Control of playback is possible through the source instances. If multiple Queue sources share the same ClipManager, both are independant of each other.
