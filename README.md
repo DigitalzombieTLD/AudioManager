@@ -30,8 +30,7 @@ Shot audiosources can play audioclips from a ClipManager instance directly. Queu
 #### Usage example
 
 
-```
-   ```csharp
+```csharp
 using MelonLoader;
 using UnityEngine;
 using Il2Cpp;
@@ -110,5 +109,5 @@ namespace HereBeNamespace
         }
     }
 }
-    ```
-``````
+```
+
