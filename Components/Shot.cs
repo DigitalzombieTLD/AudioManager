@@ -3,6 +3,7 @@ using Il2CppInterop.Runtime.Attributes;
 using MelonLoader;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace AudioMgr
 {
@@ -18,6 +19,8 @@ namespace AudioMgr
         private bool _isEnabled = false;
        
         private AudioMaster.SourceType _sourceType;
+        public enum PlayState { Stopped, Playing, Paused };
+        private PlayState _playState = PlayState.Stopped;
 
         [HideFromIl2Cpp]
         public void Setup(AudioMaster.SourceType sourceType)
@@ -77,26 +80,33 @@ namespace AudioMgr
         }
 
         [HideFromIl2Cpp]
-        public void Pause()
+        public void Play(Clip audioClip)
         {
-            _audioSource.Pause();
+            Stop();
+            _playState = PlayState.Playing;
+            MelonCoroutines.Start(PlayRoutine(audioClip));
         }
 
-        [HideFromIl2Cpp]
-        public void Resume()
+        private IEnumerator PlayRoutine(Clip audioClip)
         {
-            _audioSource.UnPause();           
-        }
+            double _startTime = AudioSettings.dspTime + 0.6;
+            double _endTime = _startTime + audioClip.clipLength + 0.6;
 
-        [HideFromIl2Cpp]
-        public void Play()
-        {
-            _audioSource.Play();
-        }
+            _audioSource.PlayScheduled(_startTime);
+            _playState = PlayState.Playing;
+
+            while (AudioSettings.dspTime < _endTime)
+            {
+                yield return null;
+            }
+
+            Stop();
+        }      
 
         [HideFromIl2Cpp]
         public void Stop()
         {
+            _playState = PlayState.Stopped;
             _audioSource.Stop();
         }
 
@@ -110,14 +120,14 @@ namespace AudioMgr
         }
 
         [HideFromIl2Cpp]
-        public void Play(Clip audioClip)
+        public void PlayOneshot(Clip audioClip)
         {           
             MelonCoroutines.Start(PlayOneshotRoutine(audioClip));
         }
 
         [HideFromIl2Cpp]
         private IEnumerator PlayOneshotRoutine(Clip audioClip)
-        {            
+        {     
             _audioSource.PlayOneShot(audioClip.audioClip);
             yield return null;
         }

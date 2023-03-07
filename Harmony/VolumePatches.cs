@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace AudioMgr
 {    
+    /*
     [HarmonyLib.HarmonyPatch(typeof(GameAudioManager), "SetRTPCValue")]
     public class VolumeChanged
     {
@@ -18,5 +19,5 @@ namespace AudioMgr
                 VolumeMaster.SetVolume(VolumeIDs.GetRtpcIDList()[rtpcID], rtpcValue/100);
             }           
         }
-    }    
+    } */   
 }

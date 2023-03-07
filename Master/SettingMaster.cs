@@ -38,47 +38,47 @@ namespace AudioMgr
             _defaultSetting.Add(AudioMaster.SourceType.Custom, new Setting(AudioMaster.SourceType.Custom));
 
             _defaultSetting[AudioMaster.SourceType.SFX].spread = 0.0f;
-            _defaultSetting[AudioMaster.SourceType.SFX].panStereo = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.SFX].dopplerLevel = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.SFX].maxDistance = 800.0f;
+            _defaultSetting[AudioMaster.SourceType.SFX].panStereo = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.SFX].dopplerLevel = 0f;
+            _defaultSetting[AudioMaster.SourceType.SFX].maxDistance = 18.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].minDistance = 1.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].pitch = 1.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].spatialBlend = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.SFX].rolloffFactor = 1.0f;
+            _defaultSetting[AudioMaster.SourceType.SFX].rolloffFactor = 0.8f;
             _defaultSetting[AudioMaster.SourceType.SFX].spatialize = true;
             _defaultSetting[AudioMaster.SourceType.SFX].rolloffMode = AudioRolloffMode.Linear;
             //_defaultSetting[AudioMaster.SourceType.SFX].rollOffCurve = stdRollOffCurve;
             _defaultSetting[AudioMaster.SourceType.SFX].priority = 128;
 
             _defaultSetting[AudioMaster.SourceType.Ambience].spread = 0.0f;
-            _defaultSetting[AudioMaster.SourceType.Ambience].panStereo = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.Ambience].dopplerLevel = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.Ambience].maxDistance = 500.0f;
-            _defaultSetting[AudioMaster.SourceType.Ambience].minDistance = 1.0f;
+            _defaultSetting[AudioMaster.SourceType.Ambience].panStereo = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.Ambience].dopplerLevel = 0f;
+            _defaultSetting[AudioMaster.SourceType.Ambience].maxDistance = 2000.0f;
+            _defaultSetting[AudioMaster.SourceType.Ambience].minDistance = 50.0f;
             _defaultSetting[AudioMaster.SourceType.Ambience].pitch = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.Ambience].spatialBlend = 0.2f;
-            _defaultSetting[AudioMaster.SourceType.Ambience].rolloffFactor = 1.0f;
+            _defaultSetting[AudioMaster.SourceType.Ambience].spatialBlend = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.Ambience].rolloffFactor = 1f;
             _defaultSetting[AudioMaster.SourceType.Ambience].spatialize = true;
             _defaultSetting[AudioMaster.SourceType.Ambience].rolloffMode = AudioRolloffMode.Linear;
             //_defaultSetting[AudioMaster.SourceType.Ambience].rollOffCurve = stdRollOffCurve;
             _defaultSetting[AudioMaster.SourceType.Ambience].priority = 64;
 
-            _defaultSetting[AudioMaster.SourceType.Voice].spread = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.Voice].panStereo = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.Voice].dopplerLevel = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.Voice].maxDistance = 50.0f;
+            _defaultSetting[AudioMaster.SourceType.Voice].spread = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.Voice].panStereo = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.Voice].dopplerLevel = 0f;
+            _defaultSetting[AudioMaster.SourceType.Voice].maxDistance = 20.0f;
             _defaultSetting[AudioMaster.SourceType.Voice].minDistance = 1.0f;
             _defaultSetting[AudioMaster.SourceType.Voice].pitch = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.Voice].spatialBlend = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.Voice].spatialBlend = 1.0f;
             _defaultSetting[AudioMaster.SourceType.Voice].rolloffFactor = 1.0f;
             _defaultSetting[AudioMaster.SourceType.Voice].spatialize = true;
             _defaultSetting[AudioMaster.SourceType.Voice].rolloffMode = AudioRolloffMode.Linear;
             //_defaultSetting[AudioMaster.SourceType.Voice].rollOffCurve = stdRollOffCurve;
             _defaultSetting[AudioMaster.SourceType.Voice].priority = 50;
 
-            _defaultSetting[AudioMaster.SourceType.BGM].spread = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.BGM].panStereo = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.BGM].dopplerLevel = 1.0f;
+            _defaultSetting[AudioMaster.SourceType.BGM].spread = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.BGM].panStereo = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.BGM].dopplerLevel = 0f;
             _defaultSetting[AudioMaster.SourceType.BGM].maxDistance = 10.0f;
             _defaultSetting[AudioMaster.SourceType.BGM].minDistance = 1.0f;
             _defaultSetting[AudioMaster.SourceType.BGM].pitch = 1.0f;
@@ -91,7 +91,7 @@ namespace AudioMgr
 
             _defaultSetting[AudioMaster.SourceType.Custom].spread = 0.0f;
             _defaultSetting[AudioMaster.SourceType.Custom].panStereo = 1.0f;
-            _defaultSetting[AudioMaster.SourceType.Custom].dopplerLevel = 1.0f;
+            _defaultSetting[AudioMaster.SourceType.Custom].dopplerLevel = 0f;
             _defaultSetting[AudioMaster.SourceType.Custom].maxDistance = 500.0f;
             _defaultSetting[AudioMaster.SourceType.Custom].minDistance = 1.0f;
             _defaultSetting[AudioMaster.SourceType.Custom].pitch = 1.0f;

@@ -188,15 +188,15 @@ namespace AudioMgr
         }
 
         [HideFromIl2Cpp]
-        public void Settings(ClipManager assignedClipManager, float timeGap, Loop loopType)
+        public void AssignClipManager(ClipManager assignedClipManager, float timeGap, Loop loopType)
         {
+            Stop();
             _assignedClipManager = assignedClipManager;
             _timeGap = timeGap;
             _loop = loopType;
             _currentClipIndex = 0;
         }
        
-
         [HideFromIl2Cpp]
         private void OnEnable()
         {

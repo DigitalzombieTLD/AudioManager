@@ -63,7 +63,8 @@ namespace AudioMgr
                 return;
             }
 
-            MelonCoroutines.Start(LoadClipFromBundleRoutine(newClipName, clipInBundle, assetBundle));
+            //MelonCoroutines.Start(LoadClipFromBundleRoutine(newClipName, clipInBundle, assetBundle));
+            LoadClipFromBundleRoutine(newClipName, clipInBundle, assetBundle);
         }
 
         public void LoadAllClipsFromBundle(AssetBundle assetBundle)
@@ -88,10 +89,10 @@ namespace AudioMgr
             }
         }
 
-        private IEnumerator LoadClipFromBundleRoutine(string newClipName, string clipInBundle, AssetBundle assetBundle)
+        //private IEnumerator LoadClipFromBundleRoutine(string newClipName, string clipInBundle, AssetBundle assetBundle)
+        private void LoadClipFromBundleRoutine(string newClipName, string clipInBundle, AssetBundle assetBundle)
         {
-            _loadedClips.Add(newClipName, new Clip(assetBundle.LoadAsset<AudioClip>(clipInBundle), newClipName));
-            yield break;
+            _loadedClips.Add(newClipName, new Clip(assetBundle.LoadAsset<AudioClip>(clipInBundle), newClipName));        
         }
 
         public void LoadClipsFromDir(string directory, LoadType loadType)
@@ -111,10 +112,12 @@ namespace AudioMgr
                 return;
             }
 
-            MelonCoroutines.Start(LoadClipFromFileRoutine(newClipName, fileName, loadType));
+            //MelonCoroutines.Start(LoadClipFromFileRoutine(newClipName, fileName, loadType));
+            LoadClipFromFileRoutine(newClipName, fileName, loadType);
         }
 
-        private IEnumerator LoadClipFromFileRoutine(string clipName, string fileName, LoadType loadType)
+        //private IEnumerator LoadClipFromFileRoutine(string clipName, string fileName, LoadType loadType)
+        private void LoadClipFromFileRoutine(string clipName, string fileName, LoadType loadType)
         {
             bool compressed = true;
             bool stream = false;
@@ -143,13 +146,12 @@ namespace AudioMgr
             www = UnityWebRequest.Get(downloaderPath + @"/" + fileName);
             www.SendWebRequest();
 
-            while (!www.isDone) yield return null;
+            //while (!www.isDone) yield return null;
+            while (!www.isDone)
 
             if (!www.isNetworkError && !www.isHttpError)
             {
                 _loadedClips[clipName] = new Clip(WebRequestWWW.InternalCreateAudioClipUsingDH(www.downloadHandler, www.url, stream, compressed, AudioType.UNKNOWN), clipName);
-                
-
             }
             else
             {
