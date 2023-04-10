@@ -10,7 +10,16 @@ namespace AudioMgr
     {
         public static bool Prefix(ref GameAudioManager __instance, ref string soundID, ref GameObject go)
         {
-            //MelonLogger.Msg("Play string " + soundID + " on " + go.name);
+            if (AudioMain._debug)
+                MelonLogger.Msg("Play string " + soundID + " on " + go.name);
+
+            if (Settings.options.disableFlare)
+            {
+                if (soundID.Contains("FlareLoop") || soundID.Contains("FLARELIGHT"))
+                {
+                    return false;
+                }
+            }
 
             if (PatchMaster.PatchAction(soundID, go))
             {
@@ -26,7 +35,8 @@ namespace AudioMgr
     {
         public static bool Prefix(ref GameAudioManager __instance, ref uint soundID, ref GameObject go)
         {
-            //MelonLogger.Msg("Play uint " + EventIDs.GetEventString(soundID) + " on " + go.name);
+            if (AudioMain._debug)
+                MelonLogger.Msg("Play uint " + EventIDs.GetEventString(soundID) + " on " + go.name);
 
             if (PatchMaster.PatchAction(EventIDs.GetEventString(soundID), go))
             {
@@ -42,7 +52,14 @@ namespace AudioMgr
     {
         public static bool Prefix(ref GameAudioManager __instance, ref Il2CppAK.Wwise.Event soundEvent, ref GameObject go)
         {
-            //MelonLogger.Msg("Play event " + soundEvent.Name + " on " + go.name);
+            if (AudioMain._debug)
+                MelonLogger.Msg("Play event " + soundEvent.Name + " on " + go.name);
+
+            if(Settings.options.disableWaterfall && soundEvent.Name.Contains("Waterfall"))
+            {
+                return false;
+            }
+
 
             if (PatchMaster.PatchAction(soundEvent.Name, go))
             {

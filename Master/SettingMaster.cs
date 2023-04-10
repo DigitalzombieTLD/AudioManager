@@ -40,7 +40,7 @@ namespace AudioMgr
             _defaultSetting[AudioMaster.SourceType.SFX].spread = 0.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].panStereo = 0.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].dopplerLevel = 0f;
-            _defaultSetting[AudioMaster.SourceType.SFX].maxDistance = 18.0f;
+            _defaultSetting[AudioMaster.SourceType.SFX].maxDistance = 18f; // 18.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].minDistance = 1.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].pitch = 1.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].spatialBlend = 1.0f;

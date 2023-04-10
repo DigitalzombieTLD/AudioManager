@@ -9,7 +9,8 @@ namespace AudioMgr
     {
         public static bool Prefix(ref GameAudioManager __instance, ref string soundID, ref GameObject go)
         {
-            //MelonLogger.Msg("Play3D string " + soundID + " on " + go.name);
+            if(AudioMain._debug)
+            MelonLogger.Msg("Play3D string " + soundID + " on " + go.name);
 
             if (PatchMaster.PatchAction(soundID, go))
             {
@@ -25,7 +26,8 @@ namespace AudioMgr
     {
         public static bool Prefix(ref GameAudioManager __instance, ref uint soundID, ref GameObject go)
         {
-            //MelonLogger.Msg("Play3D uint " + EventIDs.GetEventString(soundID) + " on " + go.name);
+            if (AudioMain._debug)
+                MelonLogger.Msg("Play3D uint " + EventIDs.GetEventString(soundID) + " on " + go.name);
 
 
             if (PatchMaster.PatchAction(EventIDs.GetEventString(soundID), go))
@@ -42,7 +44,8 @@ namespace AudioMgr
     {
         public static void Prefix(ref GameAudioManager __instance, ref Il2CppAK.Wwise.Event soundEvent, ref GameObject go)
         {
-            //MelonLogger.Msg("Play3D event " + soundEvent.Name + " on " + go.name);
+            if (AudioMain._debug)
+                MelonLogger.Msg("Play3D event " + soundEvent.Name + " on " + go.name);
         }
     }
 }

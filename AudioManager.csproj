@@ -72,6 +72,9 @@
         <Reference Include="Il2CppSystem.Core" />
         <Reference Include="Il2CppSystem.Data" />
         <Reference Include="Il2CppSystem" />
+        <Reference Include="ModSettings">
+          <HintPath>..\..\..\..\Games\Steam\steamapps\common\TheLongDark\Mods\ModSettings.dll</HintPath>
+        </Reference>
         <Reference Include="UnityEngine.AnimationModule" />
         <Reference Include="UnityEngine.AssetBundleModule" />
         <Reference Include="UnityEngine.AudioModule" />

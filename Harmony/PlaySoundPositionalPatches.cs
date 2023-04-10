@@ -9,8 +9,8 @@ namespace AudioMgr
     {
         public static void Prefix(ref GameAudioManager __instance, string soundID, GameObject go, AkCallbackManager.EventCallback eventCallback, GameAudioManager.PlayOptions playOptions)
         {
-            // MelonLogger.Msg("Play positional string " + soundID + "; " + go.name);
-
+            if (AudioMain._debug)
+                MelonLogger.Msg("Play positional string " + soundID + "; " + go.name);
 
         }
     }
@@ -20,7 +20,8 @@ namespace AudioMgr
     {
         public static void Prefix(ref GameAudioManager __instance, Il2CppAK.Wwise.Event soundEvent, GameObject go, AkCallbackManager.EventCallback eventCallback, GameAudioManager.PlayOptions playOptions)
         {
-            //MelonLogger.Msg("Play positional event " + EventIDs.GetEventString(soundEvent.PlayingId) + "; " + go.name);
+            if (AudioMain._debug)
+                MelonLogger.Msg("Play positional event " + EventIDs.GetEventString(soundEvent.PlayingId) + "; " + go.name);
         }
     }
 }

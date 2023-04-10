@@ -11,7 +11,14 @@ namespace AudioMgr
     {    
         public static bool Prefix(ref PlayAudioSimple __instance)
         {
-            //MelonLogger.Msg("Play simple started " + __instance.m_Event.Name + " on " + __instance.gameObject.name);
+            if (AudioMain._debug)
+                MelonLogger.Msg("Play simple started " + __instance.m_Event.Name + " on " + __instance.gameObject.name);
+
+            if (Settings.options.disableWaterfall && __instance.m_Event.Name.Contains("Waterfall"))
+            {
+                return false;
+            }
+
 
             if (PatchMaster.PatchAction(__instance.name, __instance.gameObject))
             {

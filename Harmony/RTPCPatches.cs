@@ -11,7 +11,27 @@ namespace AudioMgr
         public static void Prefix(GameAudioManager __instance, ref uint rtpcID, ref float rtpcValue, ref GameObject go)
         {
             // GAME_PARAMETERS
-            //MelonLogger.Msg("RTPC " + GameParameterIDs.GetString(rtpcID) + "; " + rtpcValue);
+            if (AudioMain._debug)
+                MelonLogger.Msg("RTPC " + GameParameterIDs.GetString(rtpcID) + "; " + rtpcValue);
+
+            // Aurora music patch
+            if(Settings.options.enableAuroraTweaks && GameParameterIDs.GetString(rtpcID) == "AURORASTRENGTH") 
+            {
+                if(rtpcValue > Settings.options.auroraVolume) 
+                {
+                    rtpcValue = Settings.options.auroraVolume;
+                }
+            }
+
+            // Wind audioc patch
+            if (Settings.options.enableWindTweaks && GameManager.GetWeatherComponent().IsIndoorScene() && (GameParameterIDs.GetString(rtpcID) == "WINDINTENSITYBLEND"))
+            {             
+                if (rtpcValue > Settings.options.windVolume)
+                {
+                    rtpcValue = Settings.options.windVolume;
+                }
+            }
+                       
 
             if (VolumeIDs.GetRtpcIDMaster() == rtpcID)
             {

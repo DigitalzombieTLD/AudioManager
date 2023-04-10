@@ -2,6 +2,13 @@
 # AudioManager
 Audio helper mod for The Long Dark. Uses Unitys native audio engine to enable easier usage of custom audio in mods.
 
+### New: v1.0! Now includes features for players:
+- Disable flare audio (no more hisssssss)
+- Disable waterfall audio (ears stop bleeding)
+- Adjust wind effect volume (eg. like clattering) when indoors  (keep your sanity at the farmhouse)
+- Adjust aurora music volume (if you don't feel creepy today)
+
+
 #### Current features v0.8
 - Loading of single audio files (ogg, wav, mp3) on runtime
 - Loading of all audio files inside a directory

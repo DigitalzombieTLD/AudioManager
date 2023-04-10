@@ -11,7 +11,8 @@ namespace AudioMgr
     {
         public static void Postfix(ref AmbientEmitter __instance)
         {
-            //MelonLogger.Msg("Ambient emitter Start: " + __instance + " on gameobject " + __instance.gameObject.name);
+            if (AudioMain._debug)
+                MelonLogger.Msg("Ambient emitter Start: " + __instance + " on gameobject " + __instance.gameObject.name);
         }
     }
 
