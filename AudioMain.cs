@@ -30,6 +30,7 @@ namespace AudioMgr
             if (sceneName.Contains("Boot"))
             {
                 AudioMaster.CreateMasterParent();
+                RadioMaster.Initialize();
                 
                 //myClipManager = new ClipManager();
                 //myClipManager2 = new ClipManager();

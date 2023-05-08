@@ -16,7 +16,7 @@ namespace AudioMgr
         private static bool _isVanillaMusicDisabled = false;
 
 
-        public enum SourceType { SFX, BGM, Voice, Ambience, Custom };
+        public enum SourceType { SFX, BGM, Voice, Ambience, Custom, AuroraRadio };
 
         public static void MoveMasterToPlayer()
         {           
@@ -50,10 +50,7 @@ namespace AudioMgr
 
 
 
-        /// <summary>
-        /// Creates a new ClipManager instance for loading audioclips from files or bundles.
-        /// </summary>
-        /// <returns>New "ClipManager" class instance. Manage yourself</returns>
+
         public static ClipManager NewClipManager()
         {
             ClipManager newManager = new ClipManager();
@@ -61,13 +58,7 @@ namespace AudioMgr
             return newManager;
         }
 
-        /// <summary>
-        /// Creates a new AudioSource on targetobject. Used for single short audioclips.
-        /// </summary>
-        /// <returns>New "Shot" class instance. Manage yourself</returns>
-        /// <param name="targetObject">Parentobject for new audiosource</param>
-        /// <param name="sourceType">Enum AudioMaster.SourceType.* - Affects volume and 3d audio settings</param>
-        /// 
+  
         public static Shot CreateShot(GameObject targetObject, SourceType sourceType)
         {
             Shot newAudioSource = targetObject.AddComponent<Shot>();
@@ -76,12 +67,15 @@ namespace AudioMgr
             return newAudioSource;
         }
 
-        /// <summary>
-        /// Creates a new AudioSource on the player. Used for single short audioclips that emit from the player (eg. voice)
-        /// </summary>
-        /// <returns>New "Shot" class instance. Manage yourself</returns>
-        /// <param name="sourceType">Enum AudioMaster.SourceType.* - Affects volume and 3d audio settings</param>
-        /// 
+        public static Shot CreateShot(GameObject targetObject, Setting sourceSetting)
+        {
+            Shot newAudioSource = targetObject.AddComponent<Shot>();
+            newAudioSource.Setup(sourceSetting);
+
+            return newAudioSource;
+        }
+
+
         public static Shot CreatePlayerShot(SourceType sourceType)
         {
             Shot newAudioSource = _masterParent.AddComponent<Shot>();
@@ -90,16 +84,15 @@ namespace AudioMgr
             return newAudioSource;
         }
 
-        /// <summary>
-        /// Creates a new AudioSource on targetobject. Used for playing a list of audioclips.
-        /// </summary>
-        /// <returns>New "Queue" class instance. Manage yourself</returns>
-        /// <param name="targetObject">Parentobject for new audiosource</param>
-        /// <param name="clipManager">ClipManager that acts as the playlist</param>
-        /// <param name="timeGap">Pause between clips. Use 0f for gapless playback</param>
-        /// <param name="loopType">Enum Queue.Loop.* - Loop single clip / Loop complete list / Randomize play order (never stop)</param>
-        /// <param name="sourceType">Enum AudioMaster.SourceType.* - Affects volume and 3d audio settings</param>
-        /// 
+        public static Shot CreatePlayerShot(Setting sourceSetting)
+        {
+            Shot newAudioSource = _masterParent.AddComponent<Shot>();
+            newAudioSource.Setup(sourceSetting);
+
+            return newAudioSource;
+        }
+
+
         public static Queue CreateQueue(GameObject targetObject, ClipManager clipManager, float timeGap, Queue.Loop loopType, SourceType sourceType)
         {
             Queue newAudioSource = targetObject.AddComponent<Queue>();
@@ -108,15 +101,14 @@ namespace AudioMgr
             return newAudioSource;
         }
 
-        /// <summary>
-        /// Creates a new AudioSource on the player. Used for playing a list of audioclips.
-        /// </summary>
-        /// <returns>New "Queue" class instance. Manage yourself</returns>
-        /// <param name="clipManager">ClipManager that acts as the playlist</param>
-        /// <param name="timeGap">Pause between clips. Use 0f for gapless playback</param>
-        /// <param name="loopType">Enum Queue.Loop.* - Loop single clip / Loop complete list / Randomize play order (never stop)</param>
-        /// <param name="sourceType">Enum AudioMaster.SourceType.* - Affects volume and 3d audio settings</param>
-        /// 
+        public static Queue CreateQueue(GameObject targetObject, ClipManager clipManager, float timeGap, Queue.Loop loopType, Setting sourceSetting)
+        {
+            Queue newAudioSource = targetObject.AddComponent<Queue>();
+            newAudioSource.Setup(clipManager, timeGap, loopType, sourceSetting);
+
+            return newAudioSource;
+        }
+
         public static Queue CreatePlayerQueue(ClipManager clipManager, float timeGap, Queue.Loop loopType, SourceType sourceType)
         {
             if (_playerGotBGMQueue && sourceType == SourceType.BGM)
@@ -141,11 +133,15 @@ namespace AudioMgr
             return newAudioSource;
         }
 
+        public static Queue CreatePlayerQueue(ClipManager clipManager, float timeGap, Queue.Loop loopType, Setting sourceSetting)
+        {
+             Queue newAudioSource = _masterParent.AddComponent<Queue>();
+            newAudioSource.Setup(clipManager, timeGap, loopType, sourceSetting);
 
-        /// <summary>
-        /// Removes any Queue on the player with the source type BGM.
-        /// </summary>
-        /// 
+            return newAudioSource;
+        }
+
+
         public static void RemovePlayerBGMQueue()
         {
             if (_playerGotBGMQueue)

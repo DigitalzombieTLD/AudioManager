@@ -38,12 +38,13 @@ namespace AudioMgr
         public void Setup(ClipManager assignedClipManager, float timeGap, Loop loopType, AudioMaster.SourceType sourceType)
         {
             _assignedClipManager = assignedClipManager;
+            _sourceType = sourceType;
             _timeGap = timeGap;
             _loop = loopType;
             _audioSources = new Dictionary<bool, AudioSource>();
             _audioSources.Add(true, gameObject.AddComponent<AudioSource>());
             _audioSources.Add(false, gameObject.AddComponent<AudioSource>());
-
+         
             _audioSources[true].playOnAwake = false;
             _audioSources[false].playOnAwake = false;
 
@@ -53,6 +54,28 @@ namespace AudioMgr
             VolumeMaster.onVolumeChange += ResetVolume;
 
             ApplySettings(SettingMaster.Defaults(sourceType));
+        }
+
+        [HideFromIl2Cpp]
+        public void Setup(ClipManager assignedClipManager, float timeGap, Loop loopType, Setting sourceSetting)
+        {
+            _assignedClipManager = assignedClipManager;
+            _timeGap = timeGap;
+            _loop = loopType;
+            _sourceType = AudioMaster.SourceType.Custom;
+            _audioSources = new Dictionary<bool, AudioSource>();
+            _audioSources.Add(true, gameObject.AddComponent<AudioSource>());
+            _audioSources.Add(false, gameObject.AddComponent<AudioSource>());
+
+            _audioSources[true].playOnAwake = false;
+            _audioSources[false].playOnAwake = false;
+
+            _audioSources[true].volume = VolumeMaster.GetVolume(_sourceType);
+            _audioSources[false].volume = VolumeMaster.GetVolume(_sourceType);
+
+            VolumeMaster.onVolumeChange += ResetVolume;
+
+            ApplySettings(sourceSetting);
         }
 
         [HideFromIl2Cpp]
@@ -140,7 +163,7 @@ namespace AudioMgr
             double _startTime;
             double _timeToNext = 0;
             int _nextClip = 0;
-                      
+
             _startTime = AudioSettings.dspTime + 0.5;
 
             if (_randomGap)
@@ -246,7 +269,9 @@ namespace AudioMgr
             _audioSources[audioSource].pitch = _activeSetting.pitch;
             _audioSources[audioSource].spatialBlend = _activeSetting.spatialBlend;
             _audioSources[audioSource].spatialize = _activeSetting.spatialize;
-            //_audioSources[audioSource].rolloffFactor = _activeSetting.rolloffFactor;
+            _audioSources[audioSource].rolloffFactor = _activeSetting.rolloffFactor;
+            _audioSources[audioSource].maxVolume = _activeSetting.maxVolume;
+            _audioSources[audioSource].maxVolume = _activeSetting.minVolume;
             _audioSources[audioSource].rolloffMode = _activeSetting.rolloffMode;
             //_audioSources[audioSource].SetCustomCurve(AudioSourceCurveType.CustomRolloff, _activeSetting.rollOffCurve);
 

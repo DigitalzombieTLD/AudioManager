@@ -25,11 +25,23 @@ namespace AudioMgr
         [HideFromIl2Cpp]
         public void Setup(AudioMaster.SourceType sourceType)
         {
+            _sourceType = sourceType;
             _audioSource = gameObject.AddComponent<AudioSource>();
             _audioSource.playOnAwake = false;
             _audioSource.volume = VolumeMaster.GetVolume(sourceType);
             VolumeMaster.onVolumeChange += ResetVolume;
             ApplySettings(SettingMaster.Defaults(sourceType));
+        }
+
+        [HideFromIl2Cpp]
+        public void Setup(Setting sourceSetting)
+        {
+            _sourceType = AudioMaster.SourceType.Custom;
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.playOnAwake = false;
+            _audioSource.volume = VolumeMaster.GetVolume(_sourceType);
+            VolumeMaster.onVolumeChange += ResetVolume;
+            ApplySettings(sourceSetting);
         }
 
         [HideFromIl2Cpp]
@@ -53,11 +65,8 @@ namespace AudioMgr
 
         [HideFromIl2Cpp]
         public void SetVolume(float newVolume)
-        {
-            if (_sourceType == AudioMaster.SourceType.Custom)
-            {
-                _audioSource.volume = newVolume;
-            }
+        {          
+            _audioSource.volume = newVolume;            
         }
 
         [HideFromIl2Cpp]
@@ -113,10 +122,7 @@ namespace AudioMgr
         [HideFromIl2Cpp]
         public void ResetVolume()
         {
-            if(_sourceType != AudioMaster.SourceType.Custom)
-            {
-                _audioSource.volume = VolumeMaster.GetVolume(_sourceType);
-            }            
+            _audioSource.volume = VolumeMaster.GetVolume(_sourceType);
         }
 
         [HideFromIl2Cpp]

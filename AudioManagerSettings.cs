@@ -5,8 +5,15 @@ using MelonLoader;
 namespace AudioMgr
 {
     internal class AudioManagerSettings : JsonModSettings
-    {     
-		[Section("Aurora Audio")]
+    {
+        [Section("Custom Audio")]
+
+        [Name("Volume")]
+        [Description("Volume of custom audio sources")]
+        [Slider(0, 1)]
+        public float customVolume = 1;
+
+        [Section("Aurora Audio")]
 
         [Name("Limit Volume")]
         [Description("Limit Volume to Value below")]
@@ -16,6 +23,25 @@ namespace AudioMgr
 		[Description("Left: Silent / Right: Maximum Volume")]
 		[Slider(0, 100)]
 		public int auroraVolume = 0;
+
+        [Section("Radio")]
+
+        [Name("Custom Radio Music")]
+        [Description("Play custom ogg files instead of the standard classical music")]
+        public bool customRadioMusic = false;
+
+        [Name("Radio Works Without Auroa")]
+        [Description("Makes radios functional at any time")]
+        public bool radioWorksWithoutAurora = true;
+
+        [Name("Randomize Playback Order")]
+        [Description("Plays audiofiles in alphabetical order if disabled")]
+        public bool randomRadioMusic = true;
+
+        [Name("Radio Volume")]
+        [Description("Left: Silent / Right: Maximum Volume")]
+        [Slider(0, 1)]
+        public float customRadioVolume = 1;
 
         [Section("Wind Audio Indoor (clattering)")]
 
@@ -43,7 +69,7 @@ namespace AudioMgr
         protected override void OnConfirm()
         {
             base.OnConfirm();
-         
+            VolumeMaster.SetVolume(AudioMaster.SourceType.AuroraRadio, customRadioVolume);
         }
     }
 
@@ -54,7 +80,8 @@ namespace AudioMgr
         public static void OnLoad()
         {
             options = new AudioManagerSettings();
-            options.AddToModSettings("AudioManager");           
+            options.AddToModSettings("AudioManager");
+            VolumeMaster.SetVolume(AudioMaster.SourceType.AuroraRadio, Settings.options.customRadioVolume);
         }
     }
 }

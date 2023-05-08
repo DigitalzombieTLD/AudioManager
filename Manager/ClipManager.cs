@@ -88,7 +88,7 @@ namespace AudioMgr
                 }
             }
         }
-
+        
         //private IEnumerator LoadClipFromBundleRoutine(string newClipName, string clipInBundle, AssetBundle assetBundle)
         private void LoadClipFromBundleRoutine(string newClipName, string clipInBundle, AssetBundle assetBundle)
         {
@@ -151,7 +151,7 @@ namespace AudioMgr
 
             if (!www.isNetworkError && !www.isHttpError)
             {
-                _loadedClips[clipName] = new Clip(WebRequestWWW.InternalCreateAudioClipUsingDH(www.downloadHandler, www.url, stream, compressed, AudioType.UNKNOWN), clipName);
+                _loadedClips[clipName] = new Clip(WebRequestWWW.InternalCreateAudioClipUsingDH(www.downloadHandler, www.url, stream, compressed, AudioType.UNKNOWN), clipName);                    
             }
             else
             {

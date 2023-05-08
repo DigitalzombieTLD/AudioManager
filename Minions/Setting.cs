@@ -17,6 +17,8 @@ namespace AudioMgr
         public float rolloffFactor;
         public AudioRolloffMode rolloffMode;
         //public AnimationCurve rollOffCurve;
+        public float maxVolume;
+        public float minVolume;
         public int priority;
 
         public Setting(AudioMaster.SourceType sourcetype)

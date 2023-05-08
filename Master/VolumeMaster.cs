@@ -15,7 +15,8 @@ namespace AudioMgr
             { AudioMaster.SourceType.BGM, 1f },
             { AudioMaster.SourceType.Voice, 1f },
             { AudioMaster.SourceType.Ambience, 1f },
-            { AudioMaster.SourceType.Custom, 1f }
+            { AudioMaster.SourceType.Custom, 1f },
+            { AudioMaster.SourceType.AuroraRadio, 1f }
         };
 
         private static void VolumeChanged()
@@ -27,7 +28,9 @@ namespace AudioMgr
         }
 
         public static float GetVolume(AudioMaster.SourceType type)
-        {
+        {           
+            _globalVolumes[AudioMaster.SourceType.Custom] = Settings.options.customVolume;
+
             return ApplyMasterOffset(_globalVolumes[type]); 
         }
 

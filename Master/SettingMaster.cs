@@ -36,6 +36,7 @@ namespace AudioMgr
             _defaultSetting.Add(AudioMaster.SourceType.Voice, new Setting(AudioMaster.SourceType.Voice));
             _defaultSetting.Add(AudioMaster.SourceType.BGM, new Setting(AudioMaster.SourceType.BGM));
             _defaultSetting.Add(AudioMaster.SourceType.Custom, new Setting(AudioMaster.SourceType.Custom));
+            _defaultSetting.Add(AudioMaster.SourceType.AuroraRadio, new Setting(AudioMaster.SourceType.AuroraRadio));
 
             _defaultSetting[AudioMaster.SourceType.SFX].spread = 0.0f;
             _defaultSetting[AudioMaster.SourceType.SFX].panStereo = 0.0f;
@@ -101,6 +102,21 @@ namespace AudioMgr
             _defaultSetting[AudioMaster.SourceType.Custom].rolloffMode = AudioRolloffMode.Linear;
             //_defaultSetting[AudioMaster.SourceType.Custom].rollOffCurve = stdRollOffCurve;
             _defaultSetting[AudioMaster.SourceType.Custom].priority = 80;
+
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].spread = 20f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].panStereo = 0.0f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].dopplerLevel = 0.1f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].maxDistance = 11.0f; 
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].minDistance = 0.01f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].pitch = 1.0f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].spatialBlend = 1.0f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].rolloffFactor = 1f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].spatialize = true;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].maxVolume = 0.5f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].minVolume = 0.1f;
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].rolloffMode = AudioRolloffMode.Linear;
+            
+            _defaultSetting[AudioMaster.SourceType.AuroraRadio].priority = 128;
         }
         public static Setting Defaults(AudioMaster.SourceType sourceType)
         {
