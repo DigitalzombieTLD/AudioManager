@@ -11,9 +11,8 @@ namespace AudioMgr
         {
         }
 
-        private Dictionary<bool, AudioSource> _audioSources;
-        private bool _toggleAudioSource = true;
-
+        private AudioSource _audioSource;
+        
         private Setting _activeSetting;
         private AudioMaster.SourceType _sourceType;
 
@@ -23,9 +22,9 @@ namespace AudioMgr
         private float _upperRandomGap = 2;
         private bool _randomGap = false;
 
-        private int _currentClipIndex = 0;
-
-        private object _timerLoop;
+        private int _activeClip = 0;
+        private bool _isSetup = false;
+        private float _silenceTimer = 0f;
 
         public enum Loop { None, Single, All, Randomize };
         private Loop _loop = Loop.All;
@@ -41,19 +40,15 @@ namespace AudioMgr
             _sourceType = sourceType;
             _timeGap = timeGap;
             _loop = loopType;
-            _audioSources = new Dictionary<bool, AudioSource>();
-            _audioSources.Add(true, gameObject.AddComponent<AudioSource>());
-            _audioSources.Add(false, gameObject.AddComponent<AudioSource>());
-         
-            _audioSources[true].playOnAwake = false;
-            _audioSources[false].playOnAwake = false;
 
-            _audioSources[true].volume = VolumeMaster.GetVolume(sourceType);
-            _audioSources[false].volume = VolumeMaster.GetVolume(sourceType);
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.playOnAwake = false;
+            _audioSource.volume = VolumeMaster.GetVolume(sourceType);
 
             VolumeMaster.onVolumeChange += ResetVolume;
 
             ApplySettings(SettingMaster.Defaults(sourceType));
+            _isSetup = true;
         }
 
         [HideFromIl2Cpp]
@@ -63,57 +58,17 @@ namespace AudioMgr
             _timeGap = timeGap;
             _loop = loopType;
             _sourceType = AudioMaster.SourceType.Custom;
-            _audioSources = new Dictionary<bool, AudioSource>();
-            _audioSources.Add(true, gameObject.AddComponent<AudioSource>());
-            _audioSources.Add(false, gameObject.AddComponent<AudioSource>());
-
-            _audioSources[true].playOnAwake = false;
-            _audioSources[false].playOnAwake = false;
-
-            _audioSources[true].volume = VolumeMaster.GetVolume(_sourceType);
-            _audioSources[false].volume = VolumeMaster.GetVolume(_sourceType);
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource.playOnAwake = false;
+            _audioSource.volume = VolumeMaster.GetVolume(sourceType);
 
             VolumeMaster.onVolumeChange += ResetVolume;
 
             ApplySettings(sourceSetting);
+            _isSetup = true;
         }
 
-        [HideFromIl2Cpp]
-        public int GetNextClip()
-        {
-            if (_loop == Loop.Single) // Keep current clip
-            {
-                return _currentClipIndex;
-            }
-            else if (_loop == Loop.Randomize)
-            {
-                int randomIndex = _currentClipIndex;
-
-                while (randomIndex == _currentClipIndex)
-                {
-                    randomIndex = UnityEngine.Random.Range(0, _assignedClipManager.clipCount - 1);
-                }
-
-                return randomIndex;
-            }
-            else if (_currentClipIndex < _assignedClipManager.clipCount - 1) // Not at the end yet, increase by 1
-            {
-                return _currentClipIndex + 1;
-            }
-            else if (_currentClipIndex >= _assignedClipManager.clipCount - 1)
-            {
-                if (_loop == Loop.All)
-                {
-                    return 0;
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-
-            return -1;
-        }
+       
 
         [HideFromIl2Cpp]
         public void SetRandomTimeGap(float lowestTimeGap, float highestTimeGap)
@@ -132,84 +87,129 @@ namespace AudioMgr
         [HideFromIl2Cpp]
         public void Play()
         {
-            if (_playState == PlayState.Stopped && _assignedClipManager.clipCount > 0)
+            if(_assignedClipManager.clipCount == 0 || _isSetup == false)
+            {
+                return;
+            }
+
+            if (_playState == PlayState.Stopped)
             {
                 _playState = PlayState.Playing;
-                _timerLoop = MelonCoroutines.Start(TimerLoop());
+                _audioSource.clip = _assignedClipManager.GetClipAtIndex(_activeClip).audioClip;
+                _audioSource.PlayDelayed(0.6f);
             }
             else if (_playState == PlayState.Paused)
             {
-                AudioListener.pause = false;
-                _playState = PlayState.Playing;
+                UnPause();
+            }
+            else if(_playState == PlayState.Playing)
+            {                
+  
+                Clip nextClip = GetNextClip();
+
+                if(_audioSource.clip != nextClip.audioClip)
+                {
+                    _audioSource.clip = nextClip.audioClip;
+                }
+
+                if (_playState == PlayState.Playing)
+                {
+                    _audioSource.PlayDelayed(0.5f + _timeGap);
+                }                
+            }
+        }
+
+        public void Update()
+        {
+            if (_playState == PlayState.Playing)
+            {
+                _silenceTimer += Time.deltaTime;
+
+                if (_silenceTimer >= 1f)
+                {
+                    if (!_audioSource.isPlaying)
+                    {
+                        Play();
+                    }
+                    _silenceTimer = 0f;
+                }
             }
         }
 
         [HideFromIl2Cpp]
         public void Stop()
         {
-            if (_timerLoop != null)
-            {
-                MelonCoroutines.Stop(_timerLoop);
+            if (_playState == PlayState.Playing)
+            {                
                 _playState = PlayState.Stopped;
-                _audioSources[true].Stop();
-                _audioSources[false].Stop();
+                _audioSource.Stop();
             }
         }
 
+        [HideFromIl2Cpp]
+        public void UnPause()
+        {
+            if (_playState == PlayState.Paused)
+            {
+                _playState = PlayState.Playing;
+                _audioSource.UnPause();
+            }
+        }
 
         [HideFromIl2Cpp]
-        private IEnumerator TimerLoop()
+        public void Pause()
         {
-            double _startTime;
-            double _timeToNext = 0;
-            int _nextClip = 0;
+            if (_playState == PlayState.Playing)
+            {
+                _playState = PlayState.Paused;
+                _audioSource.Pause();
+            }
+        }
 
-            _startTime = AudioSettings.dspTime + 0.5;
+        [HideFromIl2Cpp]
+        public Clip GetNextClip()
+        {
+            if (_loop == Loop.None) // Keep current clip
+            {                
+                Stop();
+            }
+            else if (_loop == Loop.Single) // Keep current clip
+            {
+                _activeClip = _activeClip; // duh
+            }
+            else if (_loop == Loop.Randomize)
+            {
+                int randomIndex = _activeClip;
+
+                if(_assignedClipManager.clipCount != 1)
+                {
+                    while (_activeClip == randomIndex)
+                    {
+                        randomIndex = UnityEngine.Random.Range(0, _assignedClipManager.clipCount);
+                    }
+                }               
+
+                _activeClip = randomIndex;              
+            }
+            else if (_loop == Loop.All) // _loop == Loop.All
+            {
+                if (_activeClip < _assignedClipManager.clipCount - 1) // Not at the end yet, increase by 1
+                {
+                    _activeClip++;
+                }
+                else if (_activeClip >= _assignedClipManager.clipCount - 1)
+                {                    
+                    _activeClip = 0;                 
+                }
+            }
 
             if (_randomGap)
             {
-                _timeGap = UnityEngine.Random.Range(_lowerRandomGap, _upperRandomGap);
+                _timeGap = UnityEngine.Random.Range(_lowerRandomGap, _upperRandomGap);          
             }
-
-            _audioSources[_toggleAudioSource].clip = _assignedClipManager.GetClipAtIndex(_currentClipIndex).audioClip;
-            _audioSources[_toggleAudioSource].PlayScheduled(_startTime + _timeGap);
-
-            _timeToNext = _startTime;
-
-            while (true)
-            {
-                if (_playState == PlayState.Playing)
-                {                    
-                    // Assign new clip                
-                    _nextClip = GetNextClip();
-
-                    if (_nextClip < 0)
-                    {
-                        yield break;
-                    }
-
-                    if(_randomGap)
-                    {
-                        _timeGap = UnityEngine.Random.Range(_lowerRandomGap, _upperRandomGap);
-                    }
-
-                    _toggleAudioSource = !_toggleAudioSource;
-
-                    _timeToNext = _timeToNext + _assignedClipManager.GetClipAtIndex(_currentClipIndex).clipLength + _timeGap;
-
-                    _audioSources[_toggleAudioSource].clip = _assignedClipManager.GetClipAtIndex(_nextClip).audioClip;
-                    _audioSources[_toggleAudioSource].PlayScheduled(_timeToNext);
-
-                    while (AudioSettings.dspTime < _timeToNext + 0.05)
-                    {
-                        yield return null;
-                    }                
-                    _currentClipIndex = _nextClip;
-                }
-                yield return null;
-            }            
+            return _assignedClipManager.GetClipAtIndex(_activeClip);
         }
-
+        
         [HideFromIl2Cpp]
         public void AssignClipManager(ClipManager assignedClipManager, float timeGap, Loop loopType)
         {
@@ -217,7 +217,7 @@ namespace AudioMgr
             _assignedClipManager = assignedClipManager;
             _timeGap = timeGap;
             _loop = loopType;
-            _currentClipIndex = 0;
+            _activeClip = 0;
         }
        
         [HideFromIl2Cpp]
@@ -241,38 +241,30 @@ namespace AudioMgr
         [HideFromIl2Cpp]
         private void ResetVolume()
         {
-            if(_sourceType != AudioMaster.SourceType.Custom)
+            if(_audioSource &&  _sourceType != AudioMaster.SourceType.Custom)
             {
-                _audioSources[_toggleAudioSource].volume = VolumeMaster.GetVolume(_sourceType);
-                _audioSources[!_toggleAudioSource].volume = VolumeMaster.GetVolume(_sourceType);
+                _audioSource.volume = VolumeMaster.GetVolume(_sourceType);
             }            
         }
 
         [HideFromIl2Cpp]
         public void ApplySettings(Setting newSetting)
         {
-            ApplySettingsToSingle(newSetting, true);
-            ApplySettingsToSingle(newSetting, false);
-        }
-
-        [HideFromIl2Cpp]
-        private void ApplySettingsToSingle(Setting newSetting, bool audioSource)
-        {
             _activeSetting = newSetting;
 
             _sourceType = _activeSetting.sourceType;
-            _audioSources[audioSource].spread = _activeSetting.spread;
-            _audioSources[audioSource].panStereo = _activeSetting.panStereo;
-            _audioSources[audioSource].dopplerLevel = _activeSetting.dopplerLevel;
-            _audioSources[audioSource].maxDistance = _activeSetting.maxDistance;
-            _audioSources[audioSource].minDistance = _activeSetting.minDistance;
-            _audioSources[audioSource].pitch = _activeSetting.pitch;
-            _audioSources[audioSource].spatialBlend = _activeSetting.spatialBlend;
-            _audioSources[audioSource].spatialize = _activeSetting.spatialize;
-            _audioSources[audioSource].rolloffFactor = _activeSetting.rolloffFactor;
-            _audioSources[audioSource].maxVolume = _activeSetting.maxVolume;
-            _audioSources[audioSource].maxVolume = _activeSetting.minVolume;
-            _audioSources[audioSource].rolloffMode = _activeSetting.rolloffMode;
+            _audioSource.spread = _activeSetting.spread;
+            _audioSource.panStereo = _activeSetting.panStereo;
+            _audioSource.dopplerLevel = _activeSetting.dopplerLevel;
+            _audioSource.maxDistance = _activeSetting.maxDistance;
+            _audioSource.minDistance = _activeSetting.minDistance;
+            _audioSource.pitch = _activeSetting.pitch;
+            _audioSource.spatialBlend = _activeSetting.spatialBlend;
+            _audioSource.spatialize = _activeSetting.spatialize;
+            _audioSource.rolloffFactor = _activeSetting.rolloffFactor;
+            _audioSource.maxVolume = _activeSetting.maxVolume;
+            _audioSource.maxVolume = _activeSetting.minVolume;
+            _audioSource.rolloffMode = _activeSetting.rolloffMode;
             //_audioSources[audioSource].SetCustomCurve(AudioSourceCurveType.CustomRolloff, _activeSetting.rollOffCurve);
 
             ResetVolume();

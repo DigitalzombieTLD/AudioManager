@@ -50,7 +50,6 @@ namespace AudioMgr
 
 
 
-
         public static ClipManager NewClipManager()
         {
             ClipManager newManager = new ClipManager();
@@ -58,7 +57,22 @@ namespace AudioMgr
             return newManager;
         }
 
-  
+        public static Stream CreateStream(GameObject targetObject, string streamURL, SourceType sourceType)
+        {
+            Stream newAudioSource = targetObject.AddComponent<Stream>();
+            newAudioSource.Setup(streamURL, sourceType);
+
+            return newAudioSource;
+        }
+
+        public static Stream CreateStream(GameObject targetObject, string streamURL, Setting sourceSetting)
+        {
+            Stream newAudioSource = targetObject.AddComponent<Stream>();
+            newAudioSource.Setup(streamURL, sourceSetting);
+
+            return newAudioSource;
+        }
+
         public static Shot CreateShot(GameObject targetObject, SourceType sourceType)
         {
             Shot newAudioSource = targetObject.AddComponent<Shot>();

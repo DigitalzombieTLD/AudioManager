@@ -8,40 +8,36 @@ namespace AudioMgr
     [HarmonyLib.HarmonyPatch(typeof(AuroraActivatedToggle), "SetState", new Type[] { typeof(AuroraActivatedToggleState) })]
     public class TurnOnPatch
     {
-        public static void Prefix(ref AuroraActivatedToggle __instance, ref AuroraActivatedToggleState state)
-        {           
-            if (Settings.options.customRadioMusic)
+        public static bool Prefix(ref AuroraActivatedToggle __instance, ref AuroraActivatedToggleState state)
+        {            
+            if (Settings.options.customRadioMusic && RadioMaster.auroraClipManager.clipCount > 0)
             {
-                if (__instance.m_ToggleOffAudio == "Stop_RadioAurora" && state == AuroraActivatedToggleState.On)
+                if (state == AuroraActivatedToggleState.On)
                 {
-                    if (Settings.options.radioWorksWithoutAurora)
-                    {
-                        __instance.m_RequiresAuroraField = false;
-                       
-                        for (int i = 0; i < __instance.transform.childCount; i++)
-                        {
-                            __instance.transform.GetChild(i).gameObject.SetActive(true);
-                        }
-                        __instance.m_ChildrenEnabled = true;
-                        //__instance.UpdateChildStatus(true);
-
-                        MelonLogger.Msg("StartPlay");
-                        RadioMaster.StartPlay(__instance.gameObject);
-                    }
-                }
-
-                if (__instance.m_ToggleOffAudio == "Stop_RadioAurora" && state == AuroraActivatedToggleState.Off)
-                {
-                    if (Settings.options.radioWorksWithoutAurora)
-                    {
-                        MelonLogger.Msg("StopPlay");
-                        RadioMaster.StopPlay(__instance.gameObject);
-                    }
-                }
+                    if (GameManager.GetAuroraManager().AuroraIsActive() || (!GameManager.GetAuroraManager().AuroraIsActive() && Settings.options.radioWorksWithoutAurora))
+                    {                     
+                        
+                        RadioMaster.StartQueue(__instance.gameObject);
+                        __instance.m_ToggleState = state;
+                        return false;
+                    }                    
+                }              
             }
+
+            if (state == AuroraActivatedToggleState.Off)
+            {
+                RadioMaster.StopQueue(__instance.gameObject);
+                __instance.m_ToggleState = state;
+                return true;
+            }
+
+            return true;
         }
     }
 
+   
+
+    /*
     [HarmonyLib.HarmonyPatch(typeof(AuroraActivatedToggle), "Update")]
     public class LightingPatch
     {
@@ -62,11 +58,12 @@ namespace AudioMgr
     {
         public static void Postfix(ref AuroraActivatedToggle __instance, ref bool __result)
         {
-            if (Settings.options.customRadioMusic && Settings.options.radioWorksWithoutAurora)
+            if (Settings.options.customRadioMusic && Settings.options.radioWorksWithoutAurora && RadioMaster.auroraClipManager.clipCount > 0)
             {
                 __result = true;
             }           
         }
     }
+    */
 
 }

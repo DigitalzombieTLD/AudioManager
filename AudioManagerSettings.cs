@@ -41,7 +41,7 @@ namespace AudioMgr
         [Name("Radio Volume")]
         [Description("Left: Silent / Right: Maximum Volume")]
         [Slider(0, 1)]
-        public float customRadioVolume = 1;
+        public float customRadioVolume = 0.3f;
 
         [Section("Wind Audio Indoor (clattering)")]
 

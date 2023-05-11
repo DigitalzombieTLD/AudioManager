@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MelonLoader;
+using UnityEngine;
 using static Il2Cpp.BaseAi;
 
 namespace AudioMgr
@@ -7,9 +8,16 @@ namespace AudioMgr
     {
         public static string musicPath = @"file:///" + Application.dataPath + @"/../Mods/AuroraRadio";
         public static ClipManager auroraClipManager;
+        //public static bool foundFiles = false;
 
         public static void Initialize()
         {
+            if (!Directory.Exists(Application.dataPath + "/../Mods/AuroraRadio"))
+            {
+                Directory.CreateDirectory(Application.dataPath + "/../Mods/AuroraRadio");
+                
+            }
+
             auroraClipManager = new ClipManager();
 
             auroraClipManager.LoadClipsFromDir("AuroraRadio", ClipManager.LoadType.Stream);
@@ -34,17 +42,44 @@ namespace AudioMgr
             return radioQueue;
         }
 
-        public static void StartPlay(GameObject radioObject)
+        private static Stream GetOrAddStreamToRadio(GameObject radioObject, string streamURL)
+        {
+            Stream radioStream = radioObject.GetComponent<Stream>();
+
+            if (radioStream == null)
+            {
+                radioStream = AudioMaster.CreateStream(radioObject, streamURL, AudioMaster.SourceType.AuroraRadio);
+            }
+
+            radioStream.streamURL = streamURL;
+
+            return radioStream;
+        }
+        public static void StartStream(GameObject radioObject, string streamURL)
+        {
+            Stream radioStream = GetOrAddStreamToRadio(radioObject, streamURL);
+            radioStream.Play();
+        }
+        public static void StopStream(GameObject radioObject)
+        {
+            Stream radioStream = radioObject.GetComponent<Stream>();
+
+            if (radioStream != null)
+            {
+                radioStream.Stop();
+            }
+        }
+
+        public static void StartQueue(GameObject radioObject)
         {
             if (auroraClipManager.clipCount > 0)
             {
-                Queue radioQueue = GetOrAddQueueToRadio(radioObject);
-                radioQueue.GetNextClip();
+                Queue radioQueue = GetOrAddQueueToRadio(radioObject);              
                 radioQueue.Play();
             }
         }
 
-        public static void StopPlay(GameObject radioObject)
+        public static void StopQueue(GameObject radioObject)
         {
             if (auroraClipManager.clipCount > 0)
             {

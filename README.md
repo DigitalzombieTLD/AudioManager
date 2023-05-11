@@ -2,6 +2,12 @@
 # AudioManager
 Audio helper mod for The Long Dark. Uses Unitys native audio engine to enable easier usage of custom audio in mods.
 
+### New: v1.3.3!
+- Custom music on the radio when the aurora is active ... or not:
+Put your mp3 and/or ogg files into the \Mods\AuroraRadio folder and check out the modsettings
+- Bugfixes! ... a lot of bugfixes ... 
+
+
 ### New: v1.0! Now includes features for players:
 - Disable flare audio (no more hisssssss)
 - Disable waterfall audio (ears stop bleeding)

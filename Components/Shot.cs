@@ -122,7 +122,10 @@ namespace AudioMgr
         [HideFromIl2Cpp]
         public void ResetVolume()
         {
-            _audioSource.volume = VolumeMaster.GetVolume(_sourceType);
+            if (_audioSource)
+            {
+                _audioSource.volume = VolumeMaster.GetVolume(_sourceType);
+            }
         }
 
         [HideFromIl2Cpp]

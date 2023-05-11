@@ -20,7 +20,8 @@ namespace AudioMgr
 		{
             ClassInjector.RegisterTypeInIl2Cpp<Shot>();
             ClassInjector.RegisterTypeInIl2Cpp<Queue>();
-
+            ClassInjector.RegisterTypeInIl2Cpp<Stream>();
+            RadioMaster.Initialize();
             AudioMgr.Settings.OnLoad();
             //bundle = AssetBundle.LoadFromFile(Application.dataPath + "/../Mods/sillysounds.unity3d");
         }
@@ -30,7 +31,7 @@ namespace AudioMgr
             if (sceneName.Contains("Boot"))
             {
                 AudioMaster.CreateMasterParent();
-                RadioMaster.Initialize();
+                
                 
                 //myClipManager = new ClipManager();
                 //myClipManager2 = new ClipManager();
@@ -83,7 +84,6 @@ namespace AudioMgr
             {
                 //myPlayerShot.PlayOneshot(myClipManager2.GetClip("woo"));
             }
-
-            }
         }
+    }
 }
