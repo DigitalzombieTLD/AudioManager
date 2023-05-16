@@ -14,11 +14,17 @@ namespace AudioMgr
             if (AudioMain._debug)
                 MelonLogger.Msg("Play simple started " + __instance.m_Event.Name + " on " + __instance.gameObject.name);
 
-            if (Settings.options.disableWaterfall && __instance.m_Event.Name.Contains("Waterfall"))
+            if (__instance.m_Event ==  null || __instance.gameObject == null)
             {
-                return false;
+                return true;
             }
 
+            
+            if (Settings.options.disableWaterfall && __instance.m_Event.Name.Contains("Waterfall"))
+            {
+              
+                return false;
+            }
 
             if (PatchMaster.PatchAction(__instance.name, __instance.gameObject))
             {

@@ -22,7 +22,7 @@ namespace AudioMgr
             ClassInjector.RegisterTypeInIl2Cpp<Queue>();
             ClassInjector.RegisterTypeInIl2Cpp<Stream>();
             RadioMaster.Initialize();
-            AudioMgr.Settings.OnLoad();
+            Settings.OnLoad();
             //bundle = AssetBundle.LoadFromFile(Application.dataPath + "/../Mods/sillysounds.unity3d");
         }
 

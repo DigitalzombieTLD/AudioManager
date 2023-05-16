@@ -38,6 +38,11 @@ namespace AudioMgr
             if (AudioMain._debug)
                 MelonLogger.Msg("Play uint " + EventIDs.GetEventString(soundID) + " on " + go.name);
 
+            if(go == null)
+            {
+                return true;
+            }
+
             if (PatchMaster.PatchAction(EventIDs.GetEventString(soundID), go))
             {
                 return false;
@@ -55,11 +60,17 @@ namespace AudioMgr
             if (AudioMain._debug)
                 MelonLogger.Msg("Play event " + soundEvent.Name + " on " + go.name);
 
-            if(Settings.options.disableWaterfall && soundEvent.Name.Contains("Waterfall"))
+
+
+            if (go == null || soundEvent == null)
+            {
+                return true;
+            }
+
+            if (Settings.options.disableWaterfall && soundEvent.Name.Contains("Waterfall"))
             {
                 return false;
             }
-
 
             if (PatchMaster.PatchAction(soundEvent.Name, go))
             {

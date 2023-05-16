@@ -13,7 +13,7 @@ namespace AudioMgr
         {
         }
 
-        private AudioSource _audioSource;
+        public AudioSource _audioSource;
         private Setting _activeSetting;
 
         private bool _isEnabled = false;
@@ -64,6 +64,15 @@ namespace AudioMgr
         }
 
         [HideFromIl2Cpp]
+        public void ResetVolume()
+        {
+            if (_audioSource)
+            {
+                _audioSource.volume = VolumeMaster.GetVolume(_sourceType);
+            }
+        }
+
+        [HideFromIl2Cpp]
         public void SetVolume(float newVolume)
         {          
             _audioSource.volume = newVolume;            
@@ -96,6 +105,14 @@ namespace AudioMgr
             MelonCoroutines.Start(PlayRoutine(audioClip));
         }
 
+        [HideFromIl2Cpp]
+        public void Play()
+        {
+            Stop();
+            _playState = PlayState.Playing;
+            _audioSource.Play();
+        }
+
         private IEnumerator PlayRoutine(Clip audioClip)
         {
             double _startTime = AudioSettings.dspTime + 0.6;
@@ -119,14 +136,7 @@ namespace AudioMgr
             _audioSource.Stop();
         }
 
-        [HideFromIl2Cpp]
-        public void ResetVolume()
-        {
-            if (_audioSource)
-            {
-                _audioSource.volume = VolumeMaster.GetVolume(_sourceType);
-            }
-        }
+        
 
         [HideFromIl2Cpp]
         public void PlayOneshot(Clip audioClip)

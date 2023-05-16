@@ -14,35 +14,44 @@ namespace AudioMgr
             if (AudioMain._debug)
                 MelonLogger.Msg("RTPC " + GameParameterIDs.GetString(rtpcID) + "; " + rtpcValue);
 
-            // Aurora music patch
-            if(Settings.options.enableAuroraTweaks && GameParameterIDs.GetString(rtpcID) == "AURORASTRENGTH") 
+
+            if (go == null)
             {
-                if(rtpcValue > Settings.options.auroraVolume) 
-                {
-                    rtpcValue = Settings.options.auroraVolume;
-                }
+                return;
             }
 
+   
+            // Aurora music patch
+            if (Settings.options.enableAuroraTweaks && GameParameterIDs.GetString(rtpcID) == "AURORASTRENGTH") 
+            {
+                if (rtpcValue > Settings.options.auroraVolume) 
+                {
+                    rtpcValue = Settings.options.auroraVolume;                 
+                }
+            }
+      
             // Wind audioc patch
             if (Settings.options.enableWindTweaks && GameManager.GetWeatherComponent().IsIndoorScene() && (GameParameterIDs.GetString(rtpcID) == "WINDINTENSITYBLEND"))
-            {             
+            {            
                 if (rtpcValue > Settings.options.windVolume)
                 {
+               
                     rtpcValue = Settings.options.windVolume;
                 }
             }
-                       
 
             if (VolumeIDs.GetRtpcIDMaster() == rtpcID)
             {
+        
                 VolumeMaster.SetMasterVolume(rtpcValue / 100);
 
             }
             else if (VolumeIDs.GetRtpcIDList().ContainsKey(rtpcID)) // Set sfx/voice/ambient/bgm
             {
+            
                 VolumeMaster.SetVolume(VolumeIDs.GetRtpcIDList()[rtpcID], rtpcValue / 100);
             }
-
+          
             rtpcValue = PatchMaster.ParameterAction(GameParameterIDs.GetString(rtpcID), rtpcValue);           
         }
     }
