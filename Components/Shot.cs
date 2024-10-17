@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 
 namespace AudioMgr
 {
+    [RegisterTypeInIl2Cpp]
     public class Shot : MonoBehaviour
     {
         public Shot(IntPtr intPtr) : base(intPtr)

@@ -26,6 +26,12 @@ namespace AudioMgr
                 return false;
             }
 
+            /*if (__instance.m_Event.Name.Contains("Play_MainMenuSurvivalMode_PanelMainMenu"))
+            {
+                MelonLogger.Msg("MainMenuSurvivalMode_PanelMainMenu");
+                return false;
+            }*/
+
             if (PatchMaster.PatchAction(__instance.name, __instance.gameObject))
             {
                 return false;

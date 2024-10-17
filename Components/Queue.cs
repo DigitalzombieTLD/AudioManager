@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace AudioMgr
 {
+    [RegisterTypeInIl2Cpp]
     public class Queue : MonoBehaviour
     {
         public Queue(IntPtr intPtr) : base(intPtr)
@@ -95,16 +96,16 @@ namespace AudioMgr
             if (_playState == PlayState.Stopped)
             {
                 _playState = PlayState.Playing;
-                _audioSource.clip = _assignedClipManager.GetClipAtIndex(_activeClip).audioClip;
-                _audioSource.PlayDelayed(0.6f);
+                //_audioSource.clip = _assignedClipManager.GetClipAtIndex(_activeClip).audioClip;
+                GetNextClip();
+                _audioSource.PlayDelayed(0.5f);
             }
             else if (_playState == PlayState.Paused)
             {
                 UnPause();
             }
             else if(_playState == PlayState.Playing)
-            {                
-  
+            {                  
                 Clip nextClip = GetNextClip();
 
                 if(_audioSource.clip != nextClip.audioClip)
@@ -179,13 +180,20 @@ namespace AudioMgr
             }
             else if (_loop == Loop.Randomize)
             {
-                int randomIndex = _activeClip;
+                int randomIndex = 0;
 
-                if(_assignedClipManager.clipCount != 1)
+                if(_assignedClipManager.clipCount > 1)
                 {
-                    while (_activeClip == randomIndex)
+                    bool gotRand = false;                  
+
+                    while (!gotRand)
                     {
                         randomIndex = UnityEngine.Random.Range(0, _assignedClipManager.clipCount);
+
+                        if(randomIndex != _activeClip)
+                        {
+                            gotRand = true;
+                        }
                     }
                 }               
 

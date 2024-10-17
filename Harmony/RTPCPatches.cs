@@ -14,12 +14,7 @@ namespace AudioMgr
             if (AudioMain._debug)
                 MelonLogger.Msg("RTPC " + GameParameterIDs.GetString(rtpcID) + "; " + rtpcValue);
 
-
-            if (go == null)
-            {
-                return;
-            }
-
+                       
    
             // Aurora music patch
             if (Settings.options.enableAuroraTweaks && GameParameterIDs.GetString(rtpcID) == "AURORASTRENGTH") 
@@ -34,15 +29,16 @@ namespace AudioMgr
             if (Settings.options.enableWindTweaks && GameManager.GetWeatherComponent().IsIndoorScene() && (GameParameterIDs.GetString(rtpcID) == "WINDINTENSITYBLEND"))
             {            
                 if (rtpcValue > Settings.options.windVolume)
-                {
-               
+                {               
                     rtpcValue = Settings.options.windVolume;
+
+                    if (AudioMain._debug)
+                        MelonLogger.Msg("Wind Volume Overwrite " + GameParameterIDs.GetString(rtpcID) + "; " + rtpcValue);
                 }
             }
 
             if (VolumeIDs.GetRtpcIDMaster() == rtpcID)
-            {
-        
+            {        
                 VolumeMaster.SetMasterVolume(rtpcValue / 100);
 
             }

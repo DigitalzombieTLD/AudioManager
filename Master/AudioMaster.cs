@@ -23,6 +23,7 @@ namespace AudioMgr
             if (GameManager.GetMainCamera() != null)
             {
                 _masterParent.transform.position = GameManager.GetVpFPSCamera().gameObject.transform.position;
+                _masterParent.transform.rotation = GameManager.GetVpFPSCamera().gameObject.transform.rotation;
             }
         }
 

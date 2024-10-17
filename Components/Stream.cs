@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 namespace AudioMgr
 {
+    [RegisterTypeInIl2Cpp]
     public class Stream : MonoBehaviour
     {
         public Stream(IntPtr intPtr) : base(intPtr)

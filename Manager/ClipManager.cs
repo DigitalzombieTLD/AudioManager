@@ -81,6 +81,11 @@ namespace AudioMgr
                     clipNameSplit = singleName.Split('/');
                     tmpClipName = clipNameSplit[clipNameSplit.Length-1];
 
+                    if(AudioMain._debug)
+                    {
+                        MelonLogger.Msg("Importing clip to clipmanager: " + FileNameCutter(tmpClipName));
+                    }
+
                     if (!_loadedClips.ContainsKey(tmpClipName))
                     {
                         LoadClipFromBundle(FileNameCutter(tmpClipName), singleName, assetBundle);

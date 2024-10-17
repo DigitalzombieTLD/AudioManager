@@ -3,7 +3,7 @@
 
     <PropertyGroup>
         <!--This needs to be changed for the mod to compile.-->
-        <TheLongDarkPath>G:\Games\Steam\steamapps\common\TheLongDark</TheLongDarkPath>
+        <TheLongDarkPath>W:/Steam/steamapps/common/TheLongDark</TheLongDarkPath>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -49,16 +49,19 @@
     <!--This is the list of assemblies that the mod references. Most of these are unnecessary for normal mods, but are included here for completeness.-->
     <ItemGroup>
         <Reference Include="Il2CppAk.Wwise.Api.WAAPI">
-          <HintPath>..\..\..\..\Games\Steam\steamapps\common\TheLongDark\MelonLoader\Il2CppAssemblies\Il2CppAk.Wwise.Api.WAAPI.dll</HintPath>
+          <HintPath>W:/Steam/steamapps/common/TheLongDark/MelonLoader/Il2CppAssemblies/Il2CppAk.Wwise.Api.WAAPI.dll</HintPath>
         </Reference>
         <Reference Include="Il2CppAK.Wwise.Unity.API">
-          <HintPath>..\..\..\..\Games\Steam\steamapps\common\TheLongDark\MelonLoader\Il2CppAssemblies\Il2CppAK.Wwise.Unity.API.dll</HintPath>
+          <HintPath>W:/Steam/steamapps/common/TheLongDark/MelonLoader/Il2CppAssemblies/Il2CppAK.Wwise.Unity.API.dll</HintPath>
         </Reference>
         <Reference Include="Il2CppAK.Wwise.Unity.API.WwiseTypes">
-          <HintPath>..\..\..\..\Games\Steam\steamapps\common\TheLongDark\MelonLoader\Il2CppAssemblies\Il2CppAK.Wwise.Unity.API.WwiseTypes.dll</HintPath>
+          <HintPath>W:/Steam/steamapps/common/TheLongDark/MelonLoader/Il2CppAssemblies/Il2CppAK.Wwise.Unity.API.WwiseTypes.dll</HintPath>
         </Reference>
         <Reference Include="Il2CppAK.Wwise.Unity.MonoBehaviour">
-          <HintPath>..\..\..\..\Games\Steam\steamapps\common\TheLongDark\MelonLoader\Il2CppAssemblies\Il2CppAK.Wwise.Unity.MonoBehaviour.dll</HintPath>
+          <HintPath>W:/Steam/steamapps/common/TheLongDark/MelonLoader/Il2CppAssemblies/Il2CppAK.Wwise.Unity.MonoBehaviour.dll</HintPath>
+        </Reference>
+        <Reference Include="Il2CppTLD.SaveState">
+          <HintPath>..\..\..\..\Steam\steamapps\common\TheLongDark\MelonLoader\Il2CppAssemblies\Il2CppTLD.SaveState.dll</HintPath>
         </Reference>
         <Reference Include="MelonLoader" />
         <Reference Include="0Harmony" />
@@ -73,7 +76,7 @@
         <Reference Include="Il2CppSystem.Data" />
         <Reference Include="Il2CppSystem" />
         <Reference Include="ModSettings">
-          <HintPath>..\..\..\..\Games\Steam\steamapps\common\TheLongDark\Mods\ModSettings.dll</HintPath>
+          <HintPath>W:/Steam/steamapps/common/TheLongDark\Mods\ModSettings.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.AnimationModule" />
         <Reference Include="UnityEngine.AssetBundleModule" />

@@ -35,7 +35,14 @@ namespace AudioMgr
         }
     }
 
-   
+    [HarmonyLib.HarmonyPatch(typeof(AuroraManager), "AuroraAudioSetIntensityRTPC")]
+    public class TempAuroraMusicPatch
+    {
+        public static bool Prefix(ref AuroraManager __instance)
+        {          
+            return false;
+        }
+    }
 
     /*
     [HarmonyLib.HarmonyPatch(typeof(AuroraActivatedToggle), "Update")]

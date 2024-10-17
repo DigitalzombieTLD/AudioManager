@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using Il2Cpp;
+using Il2CppAK.Wwise;
 using MelonLoader;
 using UnityEngine;
 
@@ -43,17 +44,29 @@ namespace AudioMgr
         {
             if (_parameterPatches.ContainsKey(parameterID))
             {
+                if (AudioMain._debug)
+                    MelonLogger.Msg("ParameterAction in Action now " + parameterID + "; " + originalValue);
+
                 if (_parameterPatches[parameterID] == ParameterType.Absolute)
                 {
+                    if (AudioMain._debug)
+                        MelonLogger.Msg("Limit to " + _parameterPatches[parameterID]);
+
                     return _parameterValues[parameterID];
                 }
                 else if(_parameterPatches[parameterID] == ParameterType.Percentage)
                 {
+                    if (AudioMain._debug)
+                        MelonLogger.Msg("Limit to " + _parameterPatches[parameterID]);
+
                     return (originalValue / 100) * _parameterValues[parameterID];
                 }
                 else if (_parameterPatches[parameterID] == ParameterType.Limitter)
                 {
-                    if(originalValue > _parameterValues[parameterID])
+                    if (AudioMain._debug)
+                        MelonLogger.Msg("Limit to " + _parameterValues[parameterID]);
+
+                    if (originalValue > _parameterValues[parameterID])
                     {
                         return _parameterValues[parameterID];
                     }
