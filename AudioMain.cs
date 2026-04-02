@@ -3,6 +3,7 @@ using Il2CppInterop.Runtime.Injection;
 using Il2Cpp;
 using UnityEngine;
 using UnityEngine.Rendering;
+using HarmonyLib;
 
 
 namespace AudioMgr
@@ -10,14 +11,19 @@ namespace AudioMgr
     public class AudioMain : MelonMod
 	{
         bool initialized = false;
-        ClipManager myClipManager, myClipManager2;
-        Shot myPlayerShot;
         string rootPath = Application.dataPath + "/../Mods/";
 
         public static bool _debug = false;
-
+        public static bool _debug2 = false;
+               
         public override void OnInitializeMelon() 
 		{
+            if (File.Exists(rootPath + "AMdebug"))
+            {
+                _debug = true;
+                _debug2 = true;
+            }
+
             RadioMaster.Initialize();
             Settings.OnLoad();
         }
@@ -45,6 +51,7 @@ namespace AudioMgr
 
         public override void OnUpdate()
         {
+            
         }
     }
 }

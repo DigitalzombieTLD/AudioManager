@@ -4,7 +4,7 @@ using AudioMgr;
 
 [assembly: AssemblyTitle("AudioManager")]
 [assembly: AssemblyCopyright("Digitalzombie")]
-[assembly: AssemblyVersion("1.5.1")]
-[assembly: AssemblyFileVersion("1.5.1")]
-[assembly: MelonInfo(typeof(AudioMain), "AudioManager", "1.5.1", "Digitalzombie", null)]
+[assembly: AssemblyVersion("2.0.5")]
+[assembly: AssemblyFileVersion("2.0.5")]
+[assembly: MelonInfo(typeof(AudioMain), "AudioManager", "2.0.5", "Digitalzombie", null)]
 [assembly: MelonGame("Hinterland", "TheLongDark")]

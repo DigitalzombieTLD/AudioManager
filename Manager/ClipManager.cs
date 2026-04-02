@@ -121,6 +121,16 @@ namespace AudioMgr
             LoadClipFromFileRoutine(newClipName, fileName, loadType);
         }
 
+        public void LoadAudioclip(string newClipName, AudioClip audioClip)
+        {
+            if (_loadedClips.ContainsKey(newClipName))
+            {
+                return;
+            }
+
+            _loadedClips.Add(newClipName, new Clip(audioClip, newClipName));   
+        }
+
         //private IEnumerator LoadClipFromFileRoutine(string clipName, string fileName, LoadType loadType)
         private void LoadClipFromFileRoutine(string clipName, string fileName, LoadType loadType)
         {
