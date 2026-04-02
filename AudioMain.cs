@@ -32,11 +32,12 @@ namespace AudioMgr
         {
             if (sceneName.Contains("Boot"))
             {
-                AudioMaster.CreateMasterParent();
+               
             }
 
             if (sceneName.Contains("Menu"))
             {
+                AudioMaster.CreateMasterParent();
                 initialized = true;
             }
         }
